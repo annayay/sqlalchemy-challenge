@@ -67,5 +67,33 @@ def percipitation():
 
     return jsonify(percipitationdic)
 
+@app.route("/api/v1.0/stations")
+def stations():
+    one_year_ago = dt.date(2017,8,23) - dt.timedelta(days=365)
+    stations_data = session.query(Measurement.date, Measurement.prcp).\
+    filter(Measurement.date >= one_year_ago).all()
+    
+    session.close()
+    stationsdic={date:prcp for date, prcp in stations_data}
+
+
+    return jsonify(stationsdic)
+
+@app.route("/api/v1.0/tobs")
+def tobs():
+    one_year_ago = dt.date(2017,8,23) - dt.timedelta(days=365)
+    tobs_data = session.query(Measurement.date, Measurement.prcp).\
+    filter(Measurement.date >= one_year_ago).all()
+    
+    session.close()
+    tobsdic={date:prcp for date, prcp in tobs_data}
+
+
+    return jsonify(tobsdic)
+
+
+
+
+    return jsonify(tobsdic)
 if __name__ == '__main__':
     app.run()
